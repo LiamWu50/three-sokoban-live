@@ -5,8 +5,7 @@ import {
   PerspectiveCamera,
   PlaneGeometry,
   Scene,
-  Vector2,
-  Vector3
+  Vector2
 } from 'three'
 
 import WarehouseMan from './warehouse-man'

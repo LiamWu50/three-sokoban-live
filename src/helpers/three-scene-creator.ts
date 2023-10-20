@@ -1,9 +1,7 @@
 import {
   ACESFilmicToneMapping,
   AmbientLight,
-  Color,
   DirectionalLight,
-  Fog,
   PerspectiveCamera,
   Scene,
   Vector2,
