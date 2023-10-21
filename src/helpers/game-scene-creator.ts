@@ -1,5 +1,6 @@
 import {
   AxesHelper,
+  BoxGeometry,
   Mesh,
   MeshNormalMaterial,
   PerspectiveCamera,
@@ -60,6 +61,15 @@ export default class GameSceneCreator {
    * 创建箱子
    */
   private createBoxs() {
-    // for (let i = 0; i < 4; i++) {}
+    for (let i = 0; i < 4; i++) {
+      const geometry = new BoxGeometry(1, 1, 1)
+      const material = new MeshNormalMaterial()
+      const mesh = new Mesh(geometry, material)
+      mesh.position.x = Math.random() * this.gridSize.x
+      mesh.position.z = Math.random() * this.gridSize.y
+      mesh.position.y = 0.5
+      mesh.receiveShadow = true
+      this.scene.add(mesh)
+    }
   }
 }
