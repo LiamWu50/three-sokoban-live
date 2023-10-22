@@ -65,9 +65,9 @@ export default class GameSceneCreator {
       const geometry = new BoxGeometry(1, 1, 1)
       const material = new MeshNormalMaterial()
       const mesh = new Mesh(geometry, material)
-      mesh.position.x = Math.random() * this.gridSize.x
-      mesh.position.z = Math.random() * this.gridSize.y
-      mesh.position.y = 0.5
+      mesh.position.x = (Math.random() * 10) % this.gridSize.x
+      mesh.position.z = (Math.random() * 10) % this.gridSize.y
+      // mesh.position.y = 0.5
       mesh.receiveShadow = true
       this.scene.add(mesh)
     }
