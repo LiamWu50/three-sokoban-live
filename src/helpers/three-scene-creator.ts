@@ -21,7 +21,7 @@ export default new (class ThreeSceneCreator {
   public container!: HTMLDivElement
 
   constructor() {
-    this.gridSize = new Vector2(10, 10)
+    this.gridSize = new Vector2(8, 9)
     this.sizes = {
       width: window.innerWidth,
       height: window.innerHeight
