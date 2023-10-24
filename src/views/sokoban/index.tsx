@@ -9,8 +9,8 @@ export default function Sokoban() {
 
   useEffect(() => {
     ThreeSceneCreator.init(containerRef.current as HTMLDivElement)
-    const { scene, camera, gridSize } = ThreeSceneCreator
-    gameSceneCreator.current = new GameSceneCreator(scene, camera, gridSize)
+    const { scene, gridSize } = ThreeSceneCreator
+    gameSceneCreator.current = new GameSceneCreator(scene, gridSize)
   }, [])
 
   return (
