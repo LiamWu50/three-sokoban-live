@@ -20,7 +20,7 @@ export default defineConfig(({ command, mode }) => {
     assetsInclude: ['**/*.gltf'],
     server: {
       host: '0.0.0.0', // 主机名
-      port: 5177, // 端口
+      port: 5178, // 端口
       open: false, // 自动打开浏览器
       cors: true, // 跨域设置允许
       strictPort: true, // 如果端口已占用直接退出

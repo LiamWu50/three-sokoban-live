@@ -1,5 +1,4 @@
-import { Mesh, MeshStandardMaterial } from 'three'
-import { Scene } from 'three'
+import { IcosahedronGeometry, Mesh, MeshStandardMaterial, Scene } from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry'
 
 import { BOX, CellType, colors, PLAYER, TARGET, WALL } from '@/common/constants'
@@ -41,14 +40,25 @@ export default class EntityManager {
    * 创建墙体
    */
   createWallMesh(x: number, y: number) {
-    const NODE_GEOMETRY = new RoundedBoxGeometry(1, 1, 1, 5, 0.1)
-    const NODE_MATERIAL = new MeshStandardMaterial({
-      color: colors.wall
+    const ROCK_GEOMETRY = new IcosahedronGeometry(0.3)
+    ROCK_GEOMETRY.rotateX(Math.random() * Math.PI * 2)
+    const ROCK_MATERIAL = new MeshStandardMaterial({
+      color: '#d1d8e0',
+      flatShading: true
     })
-    const mesh = new Mesh(NODE_GEOMETRY, NODE_MATERIAL)
+    const mesh = new Mesh(ROCK_GEOMETRY, ROCK_MATERIAL)
+    mesh.scale.set(1, 3, 1)
+    mesh.rotation.y = Math.random() * Math.PI * 2
+    mesh.rotation.x = Math.random() * Math.PI * 0.1
+    mesh.rotation.order = 'YXZ'
+    mesh.position.y = -0.5
+
     mesh.name = WALL
     mesh.position.x = x
     mesh.position.z = y
+    mesh.castShadow = true
+    mesh.receiveShadow = true
+
     this.scene.add(mesh)
   }
 

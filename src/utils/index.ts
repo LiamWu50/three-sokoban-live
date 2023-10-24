@@ -20,11 +20,11 @@ export const isMatchBlock = (cell: CellType) => [MATCH_BOX].includes(cell)
 /**
  * 根据坐标获取网格类型
  */
-export function findNodePosition(matrix: string[][], target: string) {
+export function findNodePosition(matrix: string[][], target: CellType) {
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
       if (matrix[row][col] === target) {
-        return new Vector3(row, 0, col)
+        return new Vector3(col, 0, row)
       }
     }
   }

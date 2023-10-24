@@ -1,7 +1,7 @@
 import {
-  AxesHelper,
+  GridHelper,
   Mesh,
-  MeshNormalMaterial,
+  MeshStandardMaterial,
   PlaneGeometry,
   Scene,
   Vector2,
@@ -9,6 +9,7 @@ import {
 } from 'three'
 
 import { BOX, EMPTY, firstLevelDataSource, WALL } from '@/common/constants'
+import theme from '@/common/theme'
 
 import ElementManager from './element-manager'
 import EntityManager from './entity-manager'
@@ -31,6 +32,7 @@ export default class GameSceneCreator {
     this.entityManager = new EntityManager(scene, this.elementManager)
 
     this.createScenePlane()
+    this.createGridHelper()
     this.entityManager.render()
     this.bindKeyboardEvent()
   }
@@ -39,27 +41,36 @@ export default class GameSceneCreator {
    * 创建场景平面
    */
   private createScenePlane() {
-    const gridSize = this.gridSize
-    const planeGeometry = new PlaneGeometry(
-      gridSize.x,
-      gridSize.y,
-      gridSize.x,
-      gridSize.y
-    )
+    const { x, y } = this.gridSize
+    const planeGeometry = new PlaneGeometry(x * 50, y * 50)
     planeGeometry.rotateX(-Math.PI * 0.5)
-    const planMaterial = new MeshNormalMaterial({ wireframe: true })
+    const planMaterial = new MeshStandardMaterial({ color: theme.groundColor })
     const plane = new Mesh(planeGeometry, planMaterial)
-    plane.position.x = gridSize.x / 2 - 0.5
-    plane.position.z = gridSize.y / 2 - 0.5
+    plane.position.x = x / 2 - 0.5
+    plane.position.z = y / 2 - 0.5
     plane.position.y = -0.5
     plane.receiveShadow = true
     this.scene.add(plane)
+  }
 
-    const axesHelper = new AxesHelper(3)
-    axesHelper.position.x = -this.gridSize.x / 2
-    axesHelper.position.z = -this.gridSize.y / 2
-
-    plane.add(axesHelper)
+  /**
+   * 创建网格辅助
+   */
+  private createGridHelper() {
+    const gridHelper = new GridHelper(
+      this.gridSize.x,
+      this.gridSize.y,
+      0xffffff,
+      0xffffff
+    )
+    gridHelper.position.set(
+      this.gridSize.x / 2 - 0.5,
+      -0.49,
+      this.gridSize.y / 2 - 0.5
+    )
+    gridHelper.material.transparent = true
+    gridHelper.material.opacity = 0.3
+    this.scene.add(gridHelper)
   }
 
   /**

@@ -1,7 +1,9 @@
 import {
   ACESFilmicToneMapping,
   AmbientLight,
+  Color,
   DirectionalLight,
+  Fog,
   PerspectiveCamera,
   Scene,
   Vector2,
@@ -10,6 +12,8 @@ import {
   WebGLRenderer
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+
+import theme from '@/common/theme'
 
 export default new (class ThreeSceneCreator {
   public scene!: THREE.Scene
@@ -21,7 +25,7 @@ export default new (class ThreeSceneCreator {
   public container!: HTMLDivElement
 
   constructor() {
-    this.gridSize = new Vector2(8, 9)
+    this.gridSize = new Vector2(9, 9)
     this.sizes = {
       width: window.innerWidth,
       height: window.innerHeight
@@ -50,8 +54,9 @@ export default new (class ThreeSceneCreator {
    */
   private createScene() {
     this.scene = new Scene()
-    // this.scene.background = new Color('#70a1ff')
-    // this.scene.fog = new Fog('#70a1ff', 20, 55)
+    this.scene.background = new Color(theme.fogColor)
+    this.scene.fog = new Fog(theme.fogColor, 12, 16)
+    // this.scene.fog = new Fog(theme.fogColor, 16, 18)
   }
 
   /**
@@ -61,12 +66,13 @@ export default new (class ThreeSceneCreator {
     const fov = 60
     const aspect = this.sizes.width / this.sizes.height
     this.camera = new PerspectiveCamera(fov, aspect, 0.1)
-    const initoalPosition = new Vector3(
-      this.gridSize.x / 2 + 5,
-      12,
-      this.gridSize.y / 2 + 4
+    this.camera.position.copy(
+      new Vector3(
+        this.gridSize.x / 2 - 1,
+        this.gridSize.x / 2 + 6,
+        this.gridSize.y + 0
+      )
     )
-    this.camera.position.copy(initoalPosition)
   }
 
   /**
@@ -115,10 +121,10 @@ export default new (class ThreeSceneCreator {
    */
   private createControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    // this.controls.enableDamping = true
-    // this.controls.enableZoom = false
-    // this.controls.enablePan = false
-    // this.controls.enableRotate = false
+    this.controls.enableDamping = true
+    this.controls.enableZoom = false
+    this.controls.enablePan = false
+    this.controls.enableRotate = false
     this.controls.target.set(this.gridSize.x / 2, 0, this.gridSize.y / 2)
   }
 
