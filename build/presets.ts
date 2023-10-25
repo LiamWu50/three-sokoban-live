@@ -6,9 +6,13 @@ import gltf from "vite-plugin-gltf";
 import { draco } from "@gltf-transform/functions";
 
 export default (env, isBuild) => {
-  const plugins = [eslintPlugin(), glsl(),gltf({
-    transforms: [draco()],
-  }),]
+  const plugins = [
+    eslintPlugin(),
+    glsl(),
+    gltf({
+      transforms: [draco()],
+    }),
+  ]
 
   if (isBuild) {
     plugins.push(

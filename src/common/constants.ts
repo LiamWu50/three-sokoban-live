@@ -2,7 +2,6 @@ export const EMPTY = 'empty'
 export const WALL = 'wall'
 export const TARGET = 'TARGET'
 export const BOX = 'box'
-export const MATCH_BOX = 'match_box'
 export const PLAYER = 'player'
 
 export type CellType =
@@ -10,7 +9,6 @@ export type CellType =
   | typeof WALL
   | typeof TARGET
   | typeof BOX
-  // | typeof MATCH_BOX
   | typeof PLAYER
 
 export interface LevelDataSource {
@@ -19,12 +17,12 @@ export interface LevelDataSource {
 }
 
 export const colors = {
-  // wall: '#34495e',
   wall: '#e17055',
   box: '#95afc0',
   coincide: '#2ecc71',
   target: '#686de0',
-  player: '#e67e22'
+  player: '#e67e22',
+  tree: '#A3CB38'
 }
 
 export const firstLevelDataSource: LevelDataSource = {
