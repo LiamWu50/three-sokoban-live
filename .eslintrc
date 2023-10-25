@@ -18,8 +18,6 @@
     }
   },
   "plugins": [
-    "react",
-    "react-hooks",
     "simple-import-sort",
     "prettier",
     "@typescript-eslint"
@@ -28,9 +26,6 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "plugin:react/recommended",
-    "plugin:react/jsx-runtime",
-    "plugin:react-hooks/recommended",
     "prettier"
   ],
   "rules": {

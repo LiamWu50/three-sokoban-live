@@ -6,7 +6,8 @@ import {
   colors,
   EMPTY,
   LevelDataSource,
-  PLAYER
+  PLAYER,
+  TARGET
 } from '@/common/constants'
 import { findNodePosition } from '@/utils'
 
@@ -67,9 +68,16 @@ export default class ElementManager {
    */
   private updateEntityPosotion(curPos: Vector3, nextPos: Vector3) {
     const entity = this.scene.children.find(
-      (mesh) => mesh.position.x === curPos.x && mesh.position.z === curPos.z
+      (mesh) =>
+        mesh.position.x === curPos.x &&
+        mesh.position.z === curPos.z &&
+        mesh.name !== TARGET
     ) as Mesh
-    if (entity) entity.position.copy(nextPos)
+
+    if (entity) {
+      const position = new Vector3(nextPos.x, entity.position.y, nextPos.z)
+      entity.position.copy(position)
+    }
     // 如果实体是箱子，需要判断是否是目标位置
     if (entity?.name === BOX) this.updateBoxMaterial(nextPos, entity)
   }

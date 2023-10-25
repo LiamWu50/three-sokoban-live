@@ -19,24 +19,16 @@ export interface LevelDataSource {
 }
 
 export const colors = {
-  wall: '#34495e',
-  box: '#3498db',
+  // wall: '#34495e',
+  wall: '#e17055',
+  box: '#95afc0',
   coincide: '#2ecc71',
-  target: '#e74c3c',
+  target: '#686de0',
   player: '#e67e22'
 }
 
 export const firstLevelDataSource: LevelDataSource = {
   layout: [
-    // [EMPTY, EMPTY, WALL, WALL, WALL, WALL, WALL, EMPTY],
-    // [WALL, WALL, WALL, EMPTY, EMPTY, EMPTY, WALL, EMPTY],
-    // [WALL, EMPTY, PLAYER, BOX, EMPTY, EMPTY, WALL, EMPTY],
-    // [WALL, WALL, WALL, EMPTY, BOX, EMPTY, WALL, EMPTY],
-    // [WALL, EMPTY, WALL, WALL, BOX, EMPTY, WALL, EMPTY],
-    // [WALL, EMPTY, WALL, EMPTY, EMPTY, EMPTY, WALL, WALL],
-    // [WALL, BOX, EMPTY, BOX, BOX, BOX, EMPTY, WALL],
-    // [WALL, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WALL],
-    // [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL]
     [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
     [WALL, WALL, WALL, WALL, EMPTY, EMPTY, EMPTY, WALL, WALL],
     [WALL, WALL, EMPTY, PLAYER, BOX, EMPTY, EMPTY, WALL, WALL],

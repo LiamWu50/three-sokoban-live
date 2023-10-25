@@ -29,7 +29,13 @@
 // }
 
 export default {
-  groundColor: '#d68a4c',
-  fogColor: '#ffac38',
-  wallColor: '#778ca3'
+  groundColor: '#f88443',
+  fogColor: '#f07e3f',
+  wallColor: '#f64b29'
+  // groundColor: '#ffc048',
+  // fogColor: '#f0932b',
+  // wallColor: '#f64b29'
+  // groundColor: '#d68a4c',
+  // fogColor: '#ffac38',
+  // wallColor: '#778ca3'
 }

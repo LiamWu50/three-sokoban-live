@@ -1,8 +1,15 @@
 import './styles/index.css'
 
-import ReactDOM from 'react-dom/client'
+import GameSceneCreator from '@/helpers/game-scene-creator'
+import ThreeSceneCreator from '@/helpers/three-scene-creator'
 
-import App from './App'
+const initScene = () => {
+  const container = document.getElementById('container')
+  ThreeSceneCreator.init(container as HTMLDivElement)
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-root.render(<App />)
+  const { scene, gridSize } = ThreeSceneCreator
+  const gameSceneCreator = new GameSceneCreator(scene, gridSize)
+  gameSceneCreator.render()
+}
+
+initScene()

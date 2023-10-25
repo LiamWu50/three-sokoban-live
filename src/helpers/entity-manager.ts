@@ -1,9 +1,22 @@
-import { IcosahedronGeometry, Mesh, MeshStandardMaterial, Scene } from 'three'
+import {
+  BoxGeometry,
+  CylinderGeometry,
+  IcosahedronGeometry,
+  Mesh,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  Scene,
+  SphereGeometry
+} from 'three'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry'
 
+import characterMaleUrl from '@/assets/gltf/Character_Male_1.gltf'
 import { BOX, CellType, colors, PLAYER, TARGET, WALL } from '@/common/constants'
 
 import ElementManager from './element-manager'
+
+const gltfLoader = new GLTFLoader()
 
 export default class EntityManager {
   private scene: Scene
@@ -66,7 +79,7 @@ export default class EntityManager {
    * 创建目标位置
    */
   createTargetMesh(x: number, y: number) {
-    const NODE_GEOMETRY = new RoundedBoxGeometry(0.8, 0.1, 0.8, 5, 0.1)
+    const NODE_GEOMETRY = new SphereGeometry(0.3, 6, 6)
     const NODE_MATERIAL = new MeshStandardMaterial({
       color: colors.target
     })
@@ -82,7 +95,7 @@ export default class EntityManager {
    */
   createBoxMesh(x: number, y: number) {
     const isTarget = this.elementManager.isTargetPosition(x, y)
-    const NODE_GEOMETRY = new RoundedBoxGeometry(0.9, 0.9, 0.9, 5, 0.1)
+    const NODE_GEOMETRY = new RoundedBoxGeometry(0.8, 0.8, 0.8, 5, 0.1)
     const NODE_MATERIAL = new MeshStandardMaterial({
       color: isTarget ? colors.coincide : colors.box
     })
@@ -97,14 +110,25 @@ export default class EntityManager {
    * 创建玩家
    */
   createPlayerMesh(x: number, y: number) {
-    const NODE_GEOMETRY = new RoundedBoxGeometry(0.8, 0.8, 0.8, 5, 0.1)
-    const NODE_MATERIAL = new MeshStandardMaterial({
-      color: colors.player
+    gltfLoader.load(characterMaleUrl, (gltf: any) => {
+      console.log('gltf', gltf)
+
+      const root = gltf.scene
+      root.name = PLAYER
+      root.position.y = -0.5
+      root.scale.set(0.5, 0.5, 0.5)
+      root.position.x = x
+      root.position.z = y
+      root.traverse((child: any) => {
+        console.log('child', child)
+
+        if (child.castShadow !== undefined) {
+          child.castShadow = true
+          child.receiveShadow = true
+        }
+      })
+
+      this.scene.add(root)
     })
-    const mesh = new Mesh(NODE_GEOMETRY, NODE_MATERIAL)
-    mesh.name = PLAYER
-    mesh.position.x = x
-    mesh.position.z = y
-    this.scene.add(mesh)
   }
 }

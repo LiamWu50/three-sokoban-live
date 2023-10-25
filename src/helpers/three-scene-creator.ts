@@ -55,8 +55,8 @@ export default new (class ThreeSceneCreator {
   private createScene() {
     this.scene = new Scene()
     this.scene.background = new Color(theme.fogColor)
-    this.scene.fog = new Fog(theme.fogColor, 12, 16)
-    // this.scene.fog = new Fog(theme.fogColor, 16, 18)
+    // this.scene.fog = new Fog(theme.fogColor, 20, 55)
+    this.scene.fog = new Fog(theme.fogColor, 10, 24)
   }
 
   /**
@@ -68,9 +68,9 @@ export default new (class ThreeSceneCreator {
     this.camera = new PerspectiveCamera(fov, aspect, 0.1)
     this.camera.position.copy(
       new Vector3(
-        this.gridSize.x / 2 - 1,
-        this.gridSize.x / 2 + 6,
-        this.gridSize.y + 0
+        this.gridSize.x / 2 - 2,
+        this.gridSize.x / 2 + 4.5,
+        this.gridSize.y + 1.7
       )
     )
   }
