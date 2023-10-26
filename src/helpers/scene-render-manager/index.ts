@@ -1,3 +1,4 @@
+import gsap from 'gsap'
 import {
   Mesh,
   MeshStandardMaterial,
@@ -17,6 +18,7 @@ import theme from '@/common/theme'
 import ElementManager from '../element-manager'
 import {
   BoxGraphic,
+  Graphic,
   PlayerGraphic,
   StoneGraphic,
   TargetGraphic,
@@ -30,6 +32,7 @@ export default class SceneRenderManager {
   private gridSize: Vector2
   private elementManager: ElementManager
   public playerMesh!: Mesh
+  private entities: Graphic[] = []
 
   constructor(scene: Scene, gridSize: Vector2, elementManager: ElementManager) {
     this.scene = scene
@@ -38,15 +41,47 @@ export default class SceneRenderManager {
   }
 
   public render() {
+    this.generateEntities()
+    this.createEnvironment()
+    this.createLevelText()
+    this.createKeyboardHelper()
+  }
+
+  private generateEntities() {
     this.elementManager.layout.forEach((row, y) => {
       row.forEach((cell, x) => this.createTypeMesh(cell, x, y))
     })
     this.elementManager.targets.forEach(([y, x]) => {
       this.createTargetMesh(x, y)
     })
-    this.createEnvironment()
-    this.createLevelText()
-    this.createKeyboardHelper()
+
+    this.entities.sort((a, b) => {
+      const c = new Vector3(
+        this.gridSize.x / 2 - 0.5,
+        0,
+        this.gridSize.y / 2 - 0.5
+      )
+
+      const distanceA = a.position.clone().sub(c).length()
+      const distanceB = b.position.clone().sub(c).length()
+
+      return distanceA - distanceB
+    })
+
+    gsap.from(
+      this.entities.map((entity) => entity.mesh.scale),
+      {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 1,
+        ease: 'elastic.out(1.5, 0.5)',
+        stagger: {
+          grid: [10, 10],
+          amount: 1.2
+        }
+      }
+    )
   }
 
   /**
@@ -69,6 +104,7 @@ export default class SceneRenderManager {
     const wallGraphic = new WallGraphic()
     wallGraphic.mesh.position.x = x
     wallGraphic.mesh.position.z = y
+    this.entities.push(wallGraphic)
     this.scene.add(wallGraphic.mesh)
   }
 
@@ -91,6 +127,7 @@ export default class SceneRenderManager {
     const boxGraphic = new BoxGraphic(color)
     boxGraphic.mesh.position.x = x
     boxGraphic.mesh.position.z = y
+    this.entities.push(boxGraphic)
     this.scene.add(boxGraphic.mesh)
   }
 
@@ -102,8 +139,8 @@ export default class SceneRenderManager {
     const mesh = playerGraphic.mesh
     mesh.position.x = x
     mesh.position.z = y
-
     this.playerMesh = mesh
+    this.entities.push(playerGraphic)
     this.scene.add(mesh)
   }
 

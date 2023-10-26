@@ -1,4 +1,5 @@
 import BoxGraphic from './box-graphic'
+import Graphic from './graphic'
 import PlayerGraphic from './player-graphic'
 import StoneGraphic from './stone-graphic'
 import TargetGraphic from './target-graphic'
@@ -8,6 +9,7 @@ import WallGraphic from './wall-graphic'
 
 export {
   BoxGraphic,
+  Graphic,
   PlayerGraphic,
   StoneGraphic,
   TargetGraphic,
