@@ -1,4 +1,4 @@
-import { Scene } from 'three'
+import { Mesh, Scene } from 'three'
 
 import { BOX, CellType, colors, PLAYER, WALL } from '@/common/constants'
 import { treeLayoutData } from '@/common/environment'
@@ -15,6 +15,7 @@ import {
 export default class SceneRenderManager {
   private scene: Scene
   private elementManager: ElementManager
+  public playerMesh!: Mesh
 
   constructor(scene: Scene, elementManager: ElementManager) {
     this.scene = scene
@@ -81,10 +82,12 @@ export default class SceneRenderManager {
    */
   private async createPlayerMesh(x: number, y: number) {
     const playerGraphic = new PlayerGraphic()
-    await playerGraphic.init()
-    playerGraphic.mesh.position.x = x
-    playerGraphic.mesh.position.z = y
-    this.scene.add(playerGraphic.mesh)
+    const mesh = playerGraphic.mesh
+    mesh.position.x = x
+    mesh.position.z = y
+
+    this.playerMesh = mesh
+    this.scene.add(mesh)
   }
 
   /**

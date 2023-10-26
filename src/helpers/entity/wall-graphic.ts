@@ -4,16 +4,16 @@ import { WALL } from '@/common/constants'
 
 import Graphic from './graphic'
 
-const WALL_GEOMETRY = new IcosahedronGeometry(0.3)
-WALL_GEOMETRY.rotateX(Math.random() * Math.PI * 2)
-const WALL_MATERIAL = new MeshStandardMaterial({
-  color: '#d1d8e0',
-  flatShading: true
-})
-
 export default class WallGraphic extends Graphic {
   constructor(color?: number | string) {
-    const mesh = new Mesh(WALL_GEOMETRY, WALL_MATERIAL)
+    const geometry = new IcosahedronGeometry(0.3)
+    geometry.rotateX(Math.random() * Math.PI * 2)
+    const material = new MeshStandardMaterial({
+      color: '#d1d8e0',
+      flatShading: true
+    })
+    const mesh = new Mesh(geometry, material)
+
     mesh.scale.set(1, 3, 1)
     mesh.rotation.y = Math.random() * Math.PI * 2
     mesh.rotation.x = Math.random() * Math.PI * 0.1
@@ -22,7 +22,7 @@ export default class WallGraphic extends Graphic {
     mesh.name = WALL
 
     if (color) {
-      WALL_MATERIAL.color.set(color)
+      material.color.set(color)
     }
 
     super(mesh)

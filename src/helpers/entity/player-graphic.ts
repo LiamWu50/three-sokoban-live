@@ -1,31 +1,54 @@
-import { Group } from 'three'
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { Mesh, MeshStandardMaterial, SphereGeometry, Vector3 } from 'three'
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry'
 
-import characterMaleUrl from '@/assets/gltf/character-male.gltf'
 import { PLAYER } from '@/common/constants'
 
-const gltfLoader = new GLTFLoader()
+import Graphic from './graphic'
 
-export default class PlayerGraphic {
-  public mesh!: Group
-
-  constructor() {}
-
-  init() {
-    return new Promise((resolve) => {
-      gltfLoader.load(characterMaleUrl, (gltf: GLTF) => {
-        this.mesh = gltf.scene
-        this.mesh.name = PLAYER
-        this.mesh.position.y = -0.5
-        this.mesh.scale.set(0.5, 0.5, 0.5)
-        this.mesh.traverse((child: any) => {
-          if (child.castShadow) {
-            child.castShadow = true
-            child.receiveShadow = true
-          }
-        })
-        resolve(this.mesh)
-      })
+export default class PlayerGraphic extends Graphic {
+  constructor() {
+    const NODE_GEOMETRY = new RoundedBoxGeometry(0.9, 0.9, 0.9, 5, 0.1)
+    const NODE_MATERIAL = new MeshStandardMaterial({
+      color: 0xff470a
     })
+    const headMesh = new Mesh(NODE_GEOMETRY, NODE_MATERIAL)
+    headMesh.name = PLAYER
+
+    const leftEye = new Mesh(
+      new SphereGeometry(0.16, 10, 10),
+      new MeshStandardMaterial({
+        color: 0xffffff
+      })
+    )
+    leftEye.scale.z = 0.1
+    leftEye.position.x = 0.2
+    leftEye.position.y = 0.16
+    leftEye.position.z = 0.46
+
+    const leftEyeHole = new Mesh(
+      new SphereGeometry(0.1, 100, 100),
+      new MeshStandardMaterial({ color: 0x333333 })
+    )
+
+    leftEyeHole.position.z += 0.08
+    leftEye.add(leftEyeHole)
+
+    const rightEye = leftEye.clone()
+    rightEye.position.x = -0.2
+
+    const mouthMesh = new Mesh(
+      new RoundedBoxGeometry(0.4, 0.15, 0.2, 5, 0.05),
+      new MeshStandardMaterial({
+        color: '#5f27cd'
+      })
+    )
+    mouthMesh.position.x = 0.0
+    mouthMesh.position.z = 0.4
+    mouthMesh.position.y = -0.2
+
+    headMesh.add(leftEye, rightEye, mouthMesh)
+    headMesh.lookAt(headMesh.position.clone().add(new Vector3(0, 0, 1)))
+
+    super(headMesh)
   }
 }

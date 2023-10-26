@@ -133,6 +133,9 @@ export default class GameSceneCreator {
     }
 
     if (newDirection) {
+      const mesh = this.sceneRenderManager.playerMesh
+      mesh.lookAt(mesh.position.clone().add(newDirection))
+
       return position.clone().add(newDirection)
     }
   }

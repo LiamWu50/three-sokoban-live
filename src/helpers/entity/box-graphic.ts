@@ -7,15 +7,15 @@ import Graphic from './graphic'
 
 export default class BoxGraphic extends Graphic {
   constructor(color?: number | string) {
-    const BOX_GEOMETRY = new RoundedBoxGeometry(0.8, 0.8, 0.8, 5, 0.1)
-    const BOX_MATERIAL = new MeshStandardMaterial({
+    const geometry = new RoundedBoxGeometry(0.8, 0.8, 0.8, 5, 0.1)
+    const material = new MeshStandardMaterial({
       color: colors.box
     })
-    const mesh = new Mesh(BOX_GEOMETRY, BOX_MATERIAL)
+    const mesh = new Mesh(geometry, material)
     mesh.name = BOX
 
     if (color) {
-      BOX_MATERIAL.color.set(color)
+      material.color.set(color)
     }
 
     super(mesh)
