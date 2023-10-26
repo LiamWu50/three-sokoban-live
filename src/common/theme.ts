@@ -1,41 +1,13 @@
-// export default {
-//   green: {
-//     groundColor: 0x56f854,
-//     fogColor: 0x39c09f,
-//     rockColor: 0xebebeb,
-//     treeColor: 0x639541,
-//     candyColor: 0x1d5846,
-//     snakeColor: 0x1d5846,
-//     mouthColor: 0x39c09f
-//   },
-//   orange: {
-//     groundColor: 0xd68a4c,
-//     fogColor: 0xffac38,
-//     rockColor: 0xacacac,
-//     treeColor: 0xa2d109,
-//     candyColor: 0x614bdd,
-//     snakeColor: 0xff470a,
-//     mouthColor: 0x614bdd
-//   },
-//   lilac: {
-//     groundColor: 0xd199ff,
-//     fogColor: 0xb04ce6,
-//     rockColor: 0xebebeb,
-//     treeColor: 0x53d0c1,
-//     candyColor: 0x9900ff,
-//     snakeColor: 0xff2ed2,
-//     mouthColor: 0x614bdd
-//   }
-// }
-
 export default {
   groundColor: '#f88443',
   fogColor: '#f07e3f',
-  wallColor: '#f64b29'
-  // groundColor: '#ffc048',
-  // fogColor: '#f0932b',
-  // wallColor: '#f64b29'
-  // groundColor: '#d68a4c',
-  // fogColor: '#ffac38',
-  // wallColor: '#778ca3'
+  wallColor: '#f64b29',
+  wall: '#e17055',
+  box: '#54a0ff',
+  coincide: '#10ac84',
+  target: '#686de0',
+  player: '#ff470a',
+  tree: '#A3CB38',
+  trunk: '#795548',
+  text: '#686de0'
 }

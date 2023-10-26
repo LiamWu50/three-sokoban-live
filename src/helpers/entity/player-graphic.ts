@@ -2,6 +2,7 @@ import { Mesh, MeshStandardMaterial, SphereGeometry, Vector3 } from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry'
 
 import { PLAYER } from '@/common/constants'
+import theme from '@/common/theme'
 
 import Graphic from './graphic'
 
@@ -9,7 +10,7 @@ export default class PlayerGraphic extends Graphic {
   constructor() {
     const NODE_GEOMETRY = new RoundedBoxGeometry(0.8, 0.8, 0.8, 5, 0.1)
     const NODE_MATERIAL = new MeshStandardMaterial({
-      color: '#eb2f06'
+      color: theme.player
     })
     const headMesh = new Mesh(NODE_GEOMETRY, NODE_MATERIAL)
     headMesh.name = PLAYER

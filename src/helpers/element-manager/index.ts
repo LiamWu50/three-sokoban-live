@@ -3,12 +3,12 @@ import { Color, Mesh, MeshStandardMaterial, Scene, Vector3 } from 'three'
 import {
   BOX,
   CellType,
-  colors,
   EMPTY,
   LevelDataSource,
   PLAYER,
   TARGET
 } from '@/common/constants'
+import theme from '@/common/theme'
 import { findNodePosition } from '@/utils'
 
 export default class ElementManager {
@@ -88,7 +88,7 @@ export default class ElementManager {
   private updateBoxMaterial(potision: Vector3, entity: Mesh) {
     const isTarget = this.isTargetPosition(potision.x, potision.z)
     const material = entity.material as MeshStandardMaterial
-    material.color = new Color(isTarget ? colors.coincide : colors.box)
+    material.color = new Color(isTarget ? theme.coincide : theme.box)
   }
 
   /**

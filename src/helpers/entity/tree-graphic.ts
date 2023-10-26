@@ -1,7 +1,7 @@
 import { CylinderGeometry, Mesh, MeshStandardMaterial } from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry'
 
-import { colors } from '@/common/constants'
+import theme from '@/common/theme'
 
 import Graphic from './graphic'
 
@@ -11,7 +11,7 @@ export default class TreeGraphic extends Graphic {
     const treeGeometry = new CylinderGeometry(0.3, 0.2, 0.8, 4)
     const treeMaterial = new MeshStandardMaterial({
       flatShading: true,
-      color: colors.tree
+      color: theme.tree
     })
     const tree = new Mesh(treeGeometry, treeMaterial)
     tree.position.y = 0.2
@@ -22,7 +22,7 @@ export default class TreeGraphic extends Graphic {
     const trunkGeometry = new RoundedBoxGeometry(0.1, 0.3, 0.1, 5, 0.02)
     const trunkMaterial = new MeshStandardMaterial({
       flatShading: true,
-      color: colors.trunk
+      color: theme.trunk
     })
     const trunk = new Mesh(trunkGeometry, trunkMaterial)
     trunk.position.y = -0.35

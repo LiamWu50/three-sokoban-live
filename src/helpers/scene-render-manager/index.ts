@@ -1,7 +1,18 @@
-import { Mesh, Scene, Vector2, Vector3, Vector4 } from 'three'
+import {
+  Mesh,
+  MeshStandardMaterial,
+  PlaneGeometry,
+  Scene,
+  TextureLoader,
+  Vector2,
+  Vector3,
+  Vector4
+} from 'three'
 
-import { BOX, CellType, colors, PLAYER, WALL } from '@/common/constants'
+import wasdImg from '@/assets/images/arrows.png'
+import { BOX, CellType, PLAYER, WALL } from '@/common/constants'
 import { getRockLayoutData, treeLayoutData } from '@/common/environment'
+import theme from '@/common/theme'
 
 import ElementManager from '../element-manager'
 import {
@@ -9,6 +20,7 @@ import {
   PlayerGraphic,
   StoneGraphic,
   TargetGraphic,
+  TextGraphic,
   TreeGraphic,
   WallGraphic
 } from '../entity'
@@ -33,6 +45,8 @@ export default class SceneRenderManager {
       this.createTargetMesh(x, y)
     })
     this.createEnvironment()
+    this.createLevelText()
+    this.createKeyboardHelper()
   }
 
   /**
@@ -73,7 +87,7 @@ export default class SceneRenderManager {
    */
   private createBoxMesh(x: number, y: number) {
     const isTarget = this.elementManager.isTargetPosition(x, y)
-    const color = isTarget ? colors.coincide : colors.box
+    const color = isTarget ? theme.coincide : theme.box
     const boxGraphic = new BoxGraphic(color)
     boxGraphic.mesh.position.x = x
     boxGraphic.mesh.position.z = y
@@ -117,5 +131,40 @@ export default class SceneRenderManager {
       clone.rotation.y = w
       this.scene.add(clone)
     })
+  }
+
+  /**
+   * 创建关卡文本
+   */
+  private createLevelText() {
+    const textGraphic = new TextGraphic()
+    textGraphic.mesh.position.x = this.gridSize.x / 2 + 0.5
+    textGraphic.mesh.position.z = -2
+    textGraphic.mesh.position.y = 0.6
+    textGraphic.mesh.castShadow = true
+    this.scene.add(textGraphic.mesh)
+  }
+
+  /**
+   * 创建键盘按钮辅助
+   */
+  private createKeyboardHelper() {
+    const textureLoader = new TextureLoader()
+    const wasd = textureLoader.load(wasdImg)
+    const wasdGeometry = new PlaneGeometry(2, 1.1)
+    wasdGeometry.rotateX(-Math.PI * 0.5)
+
+    const planeWasd = new Mesh(
+      wasdGeometry,
+      new MeshStandardMaterial({
+        transparent: true,
+        map: wasd,
+        opacity: 0.5
+      })
+    )
+
+    planeWasd.position.set(10, 0, 8)
+
+    this.scene.add(planeWasd)
   }
 }

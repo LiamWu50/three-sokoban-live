@@ -16,16 +16,6 @@ export interface LevelDataSource {
   targets: [number, number][]
 }
 
-export const colors = {
-  wall: '#e17055',
-  box: '#54a0ff',
-  coincide: '#10ac84',
-  target: '#686de0',
-  player: '#e67e22',
-  tree: '#A3CB38',
-  trunk: '#795548'
-}
-
 export const firstLevelDataSource: LevelDataSource = {
   layout: [
     [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],

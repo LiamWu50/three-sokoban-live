@@ -55,7 +55,6 @@ export default new (class ThreeSceneCreator {
   private createScene() {
     this.scene = new Scene()
     this.scene.background = new Color(theme.fogColor)
-    // this.scene.fog = new Fog(theme.fogColor, 20, 55)
     this.scene.fog = new Fog(theme.fogColor, 10, 24)
   }
 
