@@ -7,9 +7,9 @@ import Graphic from './graphic'
 
 export default class PlayerGraphic extends Graphic {
   constructor() {
-    const NODE_GEOMETRY = new RoundedBoxGeometry(0.9, 0.9, 0.9, 5, 0.1)
+    const NODE_GEOMETRY = new RoundedBoxGeometry(0.8, 0.8, 0.8, 5, 0.1)
     const NODE_MATERIAL = new MeshStandardMaterial({
-      color: 0xff470a
+      color: '#eb2f06'
     })
     const headMesh = new Mesh(NODE_GEOMETRY, NODE_MATERIAL)
     headMesh.name = PLAYER

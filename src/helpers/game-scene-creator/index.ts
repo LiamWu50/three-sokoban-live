@@ -29,7 +29,11 @@ export default class GameSceneCreator {
     this.scene = scene
     this.gridSize = gridSize
     this.elementManager = new ElementManager(scene, firstLevelDataSource)
-    this.sceneRenderManager = new SceneRenderManager(scene, this.elementManager)
+    this.sceneRenderManager = new SceneRenderManager(
+      scene,
+      this.gridSize,
+      this.elementManager
+    )
   }
 
   public render() {

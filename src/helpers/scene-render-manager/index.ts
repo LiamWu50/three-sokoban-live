@@ -1,12 +1,13 @@
-import { Mesh, Scene } from 'three'
+import { Mesh, Scene, Vector2, Vector3, Vector4 } from 'three'
 
 import { BOX, CellType, colors, PLAYER, WALL } from '@/common/constants'
-import { treeLayoutData } from '@/common/environment'
+import { getRockLayoutData, treeLayoutData } from '@/common/environment'
 
 import ElementManager from '../element-manager'
 import {
   BoxGraphic,
   PlayerGraphic,
+  StoneGraphic,
   TargetGraphic,
   TreeGraphic,
   WallGraphic
@@ -14,11 +15,13 @@ import {
 
 export default class SceneRenderManager {
   private scene: Scene
+  private gridSize: Vector2
   private elementManager: ElementManager
   public playerMesh!: Mesh
 
-  constructor(scene: Scene, elementManager: ElementManager) {
+  constructor(scene: Scene, gridSize: Vector2, elementManager: ElementManager) {
     this.scene = scene
+    this.gridSize = gridSize
     this.elementManager = elementManager
   }
 
@@ -103,30 +106,16 @@ export default class SceneRenderManager {
       this.scene.add(clone)
     })
 
-    // const rockData = [
-    //   [new Vector3(-7, -0.5, 2), new Vector4(2, 8, 3, 2.8)],
-    //   [new Vector3(-3, -0.5, -10), new Vector4(3, 2, 2.5, 1.5)],
-    //   [new Vector3(-5, -0.5, 3), new Vector4(1, 1.5, 2, 0.8)],
-    //   [new Vector3(resX + 5, -0.5, 3), new Vector4(4, 1, 3, 1)],
-    //   [new Vector3(resX + 4, -0.5, 2), new Vector4(2, 2, 1, 1)],
-    //   [new Vector3(resX + 8, -0.5, 16), new Vector4(6, 2, 4, 4)],
-    //   [new Vector3(resX + 6, -0.5, 13), new Vector4(3, 2, 2.5, 3.2)],
-    //   [new Vector3(resX + 5, -0.5, -8), new Vector4(1, 1, 1, 0)],
-    //   [new Vector3(resX + 6, -0.5, -7), new Vector4(2, 4, 1.5, 0.5)],
-    //   [new Vector3(-5, -0.5, 14), new Vector4(1, 3, 2, 0)],
-    //   [new Vector3(-4, -0.5, 15), new Vector4(0.8, 0.6, 0.7, 0)],
-    //   [new Vector3(resX / 2 + 5, -0.5, 25), new Vector4(2.5, 0.8, 4, 2)],
-    //   [new Vector3(resX / 2 + 9, -0.5, 22), new Vector4(1.2, 2, 1.2, 1)],
-    //   [new Vector3(resX / 2 + 8, -0.5, 21.5), new Vector4(0.8, 1, 0.8, 2)]
-    // ]
+    const resX = this.gridSize.x
+    const rockLayoutData = getRockLayoutData(resX)
 
-    // rockData.forEach(([position, vector4]) => {
-    //   const { x, y, z, w } = vector4 as Vector4
-    //   const clone = new Rock(this.gridSize).mesh
-    //   clone.position.copy(position as Vector3)
-    //   clone.scale.set(x, y, z)
-    //   clone.rotation.y = w
-    //   this.scene.add(clone)
-    // })
+    rockLayoutData.forEach(([position, vector4]) => {
+      const { x, y, z, w } = vector4 as Vector4
+      const clone = new StoneGraphic().mesh
+      clone.position.copy(position as Vector3)
+      clone.scale.set(x, y, z)
+      clone.rotation.y = w
+      this.scene.add(clone)
+    })
   }
 }

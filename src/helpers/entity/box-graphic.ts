@@ -1,5 +1,4 @@
-import { Mesh, MeshStandardMaterial } from 'three'
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry'
+import { IcosahedronGeometry, Mesh, MeshStandardMaterial } from 'three'
 
 import { BOX, colors } from '@/common/constants'
 
@@ -7,7 +6,7 @@ import Graphic from './graphic'
 
 export default class BoxGraphic extends Graphic {
   constructor(color?: number | string) {
-    const geometry = new RoundedBoxGeometry(0.8, 0.8, 0.8, 5, 0.1)
+    const geometry = new IcosahedronGeometry(0.46, 0)
     const material = new MeshStandardMaterial({
       color: colors.box
     })
