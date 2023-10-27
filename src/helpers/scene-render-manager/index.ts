@@ -200,7 +200,7 @@ export default class SceneRenderManager {
       })
     )
 
-    planeWasd.position.set(10, 0, 8)
+    planeWasd.position.set(10, -0.4, 8)
 
     this.scene.add(planeWasd)
   }

@@ -13,6 +13,7 @@ import theme from '@/common/theme'
 
 import ElementManager from '../element-manager'
 import SceneRenderManager from '../scene-render-manager'
+import ThreeConfettiMulticolored from '../three-confetti-multicolored'
 
 const UP = new Vector3(0, 0, -1)
 const DOWN = new Vector3(0, 0, 1)
@@ -83,6 +84,7 @@ export default class GameSceneCreator {
    * 绑定键盘事件
    */
   private bindKeyboardEvent() {
+    this.playFireworks()
     window.addEventListener('keyup', (e: KeyboardEvent) => {
       const keyCode = e.code
       const playerPos = this.elementManager.playerPos
@@ -104,7 +106,7 @@ export default class GameSceneCreator {
 
       // 如果每一个箱子都在目标点上，那么游戏结束
       if (this.elementManager.isGameOver()) {
-        alert('游戏结束')
+        this.playFireworks()
       }
     })
   }
@@ -141,6 +143,33 @@ export default class GameSceneCreator {
       mesh.lookAt(mesh.position.clone().add(newDirection))
 
       return position.clone().add(newDirection)
+    }
+  }
+
+  private playFireworks() {
+    const options = {
+      particleCount: 1000,
+      radius: 10,
+      fallingHeight: 3,
+      colors: [0xfc5c65, 0xfd9644, 0xfed330, 0x26de81, 0xa55eea, 0x45aaf2],
+      enableShadows: true,
+      duration: 3000,
+      stagger: 0.01
+    }
+    const threeConfettiMulticolored = new ThreeConfettiMulticolored(
+      this.scene,
+      options
+    )
+
+    for (let i = 0; i < 6; i++) {
+      const position = new Vector3(
+        Math.random() * this.gridSize.x,
+        Math.random() * 6,
+        Math.random() * this.gridSize.y
+      )
+      setTimeout(() => {
+        threeConfettiMulticolored.animate(position)
+      }, i * 500)
     }
   }
 }
