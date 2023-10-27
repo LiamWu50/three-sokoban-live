@@ -84,7 +84,6 @@ export default class GameSceneCreator {
    * 绑定键盘事件
    */
   private bindKeyboardEvent() {
-    this.playFireworks()
     window.addEventListener('keyup', (e: KeyboardEvent) => {
       const keyCode = e.code
       const playerPos = this.elementManager.playerPos
@@ -106,7 +105,9 @@ export default class GameSceneCreator {
 
       // 如果每一个箱子都在目标点上，那么游戏结束
       if (this.elementManager.isGameOver()) {
-        this.playFireworks()
+        setTimeout(() => {
+          this.playFireworks()
+        }, 500)
       }
     })
   }
@@ -147,19 +148,7 @@ export default class GameSceneCreator {
   }
 
   private playFireworks() {
-    const options = {
-      particleCount: 1000,
-      radius: 10,
-      fallingHeight: 3,
-      colors: [0xfc5c65, 0xfd9644, 0xfed330, 0x26de81, 0xa55eea, 0x45aaf2],
-      enableShadows: true,
-      duration: 3000,
-      stagger: 0.01
-    }
-    const threeConfettiMulticolored = new ThreeConfettiMulticolored(
-      this.scene,
-      options
-    )
+    const threeConfettiMulticolored = new ThreeConfettiMulticolored(this.scene)
 
     for (let i = 0; i < 6; i++) {
       const position = new Vector3(

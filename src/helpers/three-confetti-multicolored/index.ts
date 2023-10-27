@@ -8,16 +8,6 @@ import {
   Vector3
 } from 'three'
 
-export interface Options {
-  particleCount: number //粒子数量
-  radius: number // 每次爆炸的半径
-  fallingHeight: number // 粒子下落的高度
-  colors: number[] // 粒子颜色数组
-  enableShadows: boolean // 启用粒子阴影。设置为false可获得更好的性能。
-  duration: number // 持续时间
-  stagger: number // 喷发的间隔时间
-}
-
 class Particle extends Mesh {
   public destination!: Vector3
   public rotateSpeedX!: number
@@ -30,44 +20,62 @@ class Particle extends Mesh {
   }
 }
 
+const COLORS = [0xfc5c65, 0xfd9644, 0xfed330, 0x26de81, 0xa55eea, 0x45aaf2]
+
+/**
+ * 基于ThreeJS的五彩纸屑爆炸效果
+ */
 export default class ThreeConfettiMulticolored {
   private scene: Scene
-  private options: Options
+  private particleCount: number //粒子数量
+  private radius: number // 每次爆炸的半径
+  private fallingHeight: number // 粒子下落的高度
+  private colors: number[] // 粒子颜色数组
+  private enableShadows: boolean // 启用粒子阴影。设置为false可获得更好的性能。
+  private duration: number // 持续时间
+  private stagger: number // 喷发的间隔时间
 
   constructor(
     scene: Scene,
-    options = {
-      particleCount: 50,
-      radius: 15,
-      fallingHeight: 3,
-      colors: [0x0000ff, 0xff0000, 0xffff00],
-      enableShadows: false,
-      duration: 3000,
-      stagger: 0.01
+    options?: {
+      particleCount?: number
+      radius?: number
+      fallingHeight?: number
+      colors?: number[]
+      enableShadows?: boolean
+      duration?: number
+      stagger?: number
     }
   ) {
     this.scene = scene
-    this.options = options
+    this.particleCount = options?.particleCount || 50
+    this.radius = options?.radius || 15
+    this.fallingHeight = options?.fallingHeight || 3
+    this.colors = options?.colors || COLORS
+    this.enableShadows = options?.enableShadows || false
+    this.duration = options?.duration || 3000
+    this.stagger = options?.stagger || 0.01
   }
 
+  // 开始播放
   public animate(position: Vector3) {
-    const { duration, stagger } = this.options
     let startTime: number | undefined
     const confetti = this.createConfetti(position)
 
     const update = (time: number) => {
       if (!startTime) startTime = time
       const elapsed = time - startTime
+      const progress = startTime === time ? 0 : elapsed / this.duration
+      const curParticles = confetti.children.slice(
+        0,
+        Math.ceil(elapsed / this.stagger)
+      )
 
-      const progress = startTime === time ? 0 : elapsed / duration
+      curParticles.forEach((particle) => {
+        this.updateParticle(confetti, particle as Particle, progress)
+      })
 
-      confetti.children
-        .slice(0, Math.ceil(elapsed / stagger))
-        .forEach((particle) => {
-          this.updateParticle(confetti, particle as Particle, progress)
-        })
-
-      if (time - startTime < duration) {
+      if (time - startTime < this.duration) {
         requestAnimationFrame(update)
       } else {
         this.disposeConfetti(confetti)
@@ -77,12 +85,13 @@ export default class ThreeConfettiMulticolored {
     requestAnimationFrame(update)
   }
 
+  // 创建五彩纸屑
   private createConfetti(position: Vector3) {
     const confetti = new Mesh()
     confetti.position.copy(position)
     this.scene.add(confetti)
 
-    for (let i = 0; i < this.options.particleCount; i++) {
+    for (let i = 0; i < this.particleCount; i++) {
       const particle = this.createParticle()
       confetti.add(particle)
     }
@@ -90,6 +99,7 @@ export default class ThreeConfettiMulticolored {
     return confetti
   }
 
+  // 销毁五彩纸屑
   private disposeConfetti(confetti: Mesh) {
     const particles = confetti.children as Particle[]
     particles.forEach((particle) => {
@@ -102,8 +112,9 @@ export default class ThreeConfettiMulticolored {
     confetti = null as any
   }
 
+  // 创建粒子
   private createParticle() {
-    const { colors, radius, enableShadows } = this.options
+    const { colors, radius, enableShadows } = this
     const geometry = new PlaneGeometry(0.03, 0.03, 1, 1)
 
     const material = new MeshBasicMaterial({
@@ -133,6 +144,7 @@ export default class ThreeConfettiMulticolored {
     return particle
   }
 
+  // 更新粒子运动状态
   private updateParticle(confetti: Mesh, particle: Particle, progress: number) {
     particle.destination.y -= MathUtils.randFloat(0.1, 0.3)
 
@@ -151,7 +163,7 @@ export default class ThreeConfettiMulticolored {
     const material = particle.material as MeshBasicMaterial
     material.opacity = 1 - progress
 
-    if (particle.position.y < -this.options.fallingHeight) {
+    if (particle.position.y < -this.fallingHeight) {
       material.dispose()
       particle.geometry.dispose()
       confetti.remove(particle)
