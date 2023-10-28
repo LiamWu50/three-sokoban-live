@@ -48,7 +48,7 @@ export default class ThreeConfettiMulticolored {
     }
   ) {
     this.scene = scene
-    this.particleCount = options?.particleCount || 50
+    this.particleCount = options?.particleCount || 500
     this.radius = options?.radius || 15
     this.fallingHeight = options?.fallingHeight || 3
     this.colors = options?.colors || COLORS

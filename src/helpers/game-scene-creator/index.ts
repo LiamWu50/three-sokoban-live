@@ -8,7 +8,7 @@ import {
   Vector3
 } from 'three'
 
-import { BOX, EMPTY, firstLevelDataSource, WALL } from '@/common/constants'
+import { BOX, EMPTY, thirdLevelDataSource, WALL } from '@/common/constants'
 import theme from '@/common/theme'
 
 import ElementManager from '../element-manager'
@@ -29,7 +29,7 @@ export default class GameSceneCreator {
   constructor(scene: Scene, gridSize: Vector2) {
     this.scene = scene
     this.gridSize = gridSize
-    this.elementManager = new ElementManager(scene, firstLevelDataSource)
+    this.elementManager = new ElementManager(scene, thirdLevelDataSource)
     this.sceneRenderManager = new SceneRenderManager(
       scene,
       this.gridSize,
@@ -107,7 +107,7 @@ export default class GameSceneCreator {
       if (this.elementManager.isGameOver()) {
         setTimeout(() => {
           this.playFireworks()
-        }, 500)
+        }, 200)
       }
     })
   }
@@ -150,7 +150,7 @@ export default class GameSceneCreator {
   private playFireworks() {
     const threeConfettiMulticolored = new ThreeConfettiMulticolored(this.scene)
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 10; i++) {
       const position = new Vector3(
         Math.random() * this.gridSize.x,
         Math.random() * 6,
