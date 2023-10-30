@@ -9,8 +9,23 @@
 </head>
 
 <body>
-	<div className='w-full h-full' id='container'></div>
 	<script type="module" src="/src/main.tsx"></script>
+
+	<audio style="opacity: 0" id="audio" class="fixed top-0 left-0 z-50" controls loop="true"
+		src="./src/assets/music/music.mp3"></audio>
+
+	<div className='w-full h-full' id='container'></div>
+
+	<ul style="opacity: 1"
+		class="fixed z-50 flex items-center justify-center px-4 -translate-x-1/2 top-bar bottom-4 left-20">
+		<li class="top-bar__item" id="refresh">
+			<img src="/arrow-counter.svg" class="h-8" />
+		</li>
+		<li class="top-bar__item" id="soundCtrl">
+			<img src="/music-off.svg" class="h-8" id="soundCtrlImg" />
+		</li>
+	</ul>
+
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash'
 import {
   GridHelper,
   Mesh,
@@ -8,7 +9,14 @@ import {
   Vector3
 } from 'three'
 
-import { BOX, EMPTY, thirdLevelDataSource, WALL } from '@/common/constants'
+import {
+  BOX,
+  EMPTY,
+  firstLevelDataSource,
+  secondLevelDataSource,
+  thirdLevelDataSource,
+  WALL
+} from '@/common/constants'
 import theme from '@/common/theme'
 
 import ElementManager from '../element-manager'
@@ -23,18 +31,27 @@ const RIGHT = new Vector3(1, 0, 0)
 export default class GameSceneCreator {
   private scene: THREE.Scene
   private gridSize: Vector2
+  private level: number
+  private isPlaying: boolean
   private elementManager: ElementManager
   private sceneRenderManager: SceneRenderManager
 
   constructor(scene: Scene, gridSize: Vector2) {
     this.scene = scene
     this.gridSize = gridSize
-    this.elementManager = new ElementManager(scene, thirdLevelDataSource)
+    this.level = 1
+    this.isPlaying = true
+    this.elementManager = new ElementManager(
+      scene,
+      cloneDeep(firstLevelDataSource)
+    )
     this.sceneRenderManager = new SceneRenderManager(
       scene,
+      this.level,
       this.gridSize,
       this.elementManager
     )
+    this.bindRefreshEvent()
   }
 
   public render() {
@@ -85,6 +102,8 @@ export default class GameSceneCreator {
    */
   private bindKeyboardEvent() {
     window.addEventListener('keyup', (e: KeyboardEvent) => {
+      if (!this.isPlaying) return
+
       const keyCode = e.code
       const playerPos = this.elementManager.playerPos
 
@@ -105,9 +124,9 @@ export default class GameSceneCreator {
 
       // 如果每一个箱子都在目标点上，那么游戏结束
       if (this.elementManager.isGameOver()) {
-        setTimeout(() => {
-          this.playFireworks()
-        }, 200)
+        this.isPlaying = false
+        setTimeout(() => this.playFireworks(), 200)
+        setTimeout(() => this.updateLevel(), 3800)
       }
     })
   }
@@ -150,7 +169,7 @@ export default class GameSceneCreator {
   private playFireworks() {
     const threeConfettiMulticolored = new ThreeConfettiMulticolored(this.scene)
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
       const position = new Vector3(
         Math.random() * this.gridSize.x,
         Math.random() * 6,
@@ -158,7 +177,36 @@ export default class GameSceneCreator {
       )
       setTimeout(() => {
         threeConfettiMulticolored.animate(position)
-      }, i * 500)
+      }, i * 400)
     }
+  }
+
+  private updateLevel() {
+    const nextLevel = this.level === 1 ? 2 : this.level === 2 ? 3 : 1
+    this.level = nextLevel
+    const levelDataSource =
+      nextLevel === 1
+        ? firstLevelDataSource
+        : nextLevel === 2
+        ? secondLevelDataSource
+        : thirdLevelDataSource
+    this.sceneRenderManager.updateLevel(this.level, cloneDeep(levelDataSource))
+    this.isPlaying = true
+  }
+
+  private bindRefreshEvent() {
+    const refreshBtn = document.getElementById('refresh')
+    refreshBtn?.addEventListener('click', () => {
+      const levelDataSource =
+        this.level === 1
+          ? firstLevelDataSource
+          : this.level === 2
+          ? secondLevelDataSource
+          : thirdLevelDataSource
+      this.sceneRenderManager.updateLevel(
+        this.level,
+        cloneDeep(levelDataSource)
+      )
+    })
   }
 }

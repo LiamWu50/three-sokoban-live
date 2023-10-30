@@ -11,7 +11,13 @@ import {
 } from 'three'
 
 import wasdImg from '@/assets/images/arrows.png'
-import { BOX, CellType, PLAYER, WALL } from '@/common/constants'
+import {
+  BOX,
+  CellType,
+  LevelDataSource,
+  PLAYER,
+  WALL
+} from '@/common/constants'
 import { getRockLayoutData, treeLayoutData } from '@/common/environment'
 import theme from '@/common/theme'
 
@@ -32,10 +38,17 @@ export default class SceneRenderManager {
   private gridSize: Vector2
   private elementManager: ElementManager
   public playerMesh!: Mesh
+  private level: number
   private entities: Graphic[] = []
 
-  constructor(scene: Scene, gridSize: Vector2, elementManager: ElementManager) {
+  constructor(
+    scene: Scene,
+    level: number,
+    gridSize: Vector2,
+    elementManager: ElementManager
+  ) {
     this.scene = scene
+    this.level = level
     this.gridSize = gridSize
     this.elementManager = elementManager
   }
@@ -115,6 +128,7 @@ export default class SceneRenderManager {
     const targetGraphic = new TargetGraphic()
     targetGraphic.mesh.position.x = x
     targetGraphic.mesh.position.z = y
+    this.entities.push(targetGraphic)
     this.scene.add(targetGraphic.mesh)
   }
 
@@ -174,12 +188,24 @@ export default class SceneRenderManager {
    * 创建关卡文本
    */
   private createLevelText() {
-    const textGraphic = new TextGraphic()
+    const textGraphic = new TextGraphic(this.level)
     textGraphic.mesh.position.x = this.gridSize.x / 2 + 0.5
     textGraphic.mesh.position.z = -2
     textGraphic.mesh.position.y = 0.6
     textGraphic.mesh.castShadow = true
+    this.entities.push(textGraphic)
     this.scene.add(textGraphic.mesh)
+
+    gsap.from(textGraphic.mesh.scale, {
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 1,
+      ease: 'elastic.out(1.5, 0.5)',
+      stagger: {
+        amount: 1.2
+      }
+    })
   }
 
   /**
@@ -203,5 +229,32 @@ export default class SceneRenderManager {
     planeWasd.position.set(10, -0.4, 8)
 
     this.scene.add(planeWasd)
+  }
+
+  public updateLevel(level: number, levelDataSource: LevelDataSource) {
+    gsap.to(
+      this.entities.map((entity) => entity.mesh.scale),
+      {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 1,
+        ease: 'elastic.out(1.5, 0.5)',
+        stagger: {
+          grid: [10, 10],
+          amount: 1.2
+        },
+        onComplete: () => {
+          this.level = level
+          this.entities.forEach((entity) => {
+            this.scene.remove(entity.mesh)
+          })
+          this.entities = []
+          this.elementManager.updateLevelDataSource(levelDataSource)
+          this.generateEntities()
+          this.createLevelText()
+        }
+      }
+    )
   }
 }

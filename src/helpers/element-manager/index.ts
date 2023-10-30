@@ -106,4 +106,12 @@ export default class ElementManager {
       this.isTargetPosition(position.x, position.z)
     )
   }
+
+  /**
+   * 更新关卡数据源
+   */
+  public updateLevelDataSource(levelDataSource: LevelDataSource) {
+    this.levelDataSource = levelDataSource
+    this.playerPos = findNodePosition(levelDataSource.layout, PLAYER) as Vector3
+  }
 }

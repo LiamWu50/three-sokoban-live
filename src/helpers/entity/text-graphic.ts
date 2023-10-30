@@ -12,19 +12,19 @@ const loader = new FontLoader()
 export default class TextGraphic extends Graphic {
   private font: any
 
-  constructor() {
+  constructor(level: number) {
     const mesh = new Mesh()
 
     loader.load(fontSrc, (loadedFont: any) => {
       this.font = loadedFont
-      this.init()
+      this.init(level)
     })
 
     super(mesh)
   }
 
-  init() {
-    const geometry = new TextGeometry('关卡 1', {
+  init(level: number) {
+    const geometry = new TextGeometry(`关卡 ${level}`, {
       font: this.font,
       size: 1,
       height: 0.4,

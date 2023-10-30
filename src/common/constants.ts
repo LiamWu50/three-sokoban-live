@@ -61,18 +61,23 @@ export const secondLevelDataSource: LevelDataSource = {
 export const thirdLevelDataSource: LevelDataSource = {
   layout: [
     [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
+    [WALL, WALL, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WALL, WALL],
+    [WALL, EMPTY, EMPTY, BOX, EMPTY, BOX, EMPTY, EMPTY, WALL],
+    [WALL, EMPTY, BOX, WALL, EMPTY, WALL, BOX, EMPTY, WALL],
+    [WALL, WALL, EMPTY, EMPTY, PLAYER, EMPTY, EMPTY, EMPTY, WALL],
+    [WALL, EMPTY, BOX, WALL, EMPTY, WALL, BOX, EMPTY, WALL],
+    [WALL, EMPTY, EMPTY, BOX, EMPTY, BOX, EMPTY, EMPTY, WALL],
     [WALL, EMPTY, EMPTY, EMPTY, WALL, EMPTY, EMPTY, WALL, WALL],
-    [WALL, EMPTY, WALL, EMPTY, WALL, BOX, EMPTY, WALL, WALL],
-    [WALL, EMPTY, EMPTY, EMPTY, EMPTY, BOX, EMPTY, WALL, WALL],
-    [WALL, EMPTY, WALL, EMPTY, WALL, BOX, EMPTY, WALL, WALL],
-    [WALL, EMPTY, EMPTY, EMPTY, WALL, EMPTY, EMPTY, WALL, WALL],
-    [WALL, WALL, WALL, WALL, WALL, PLAYER, EMPTY, WALL, WALL],
-    [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
     [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL]
   ],
   targets: [
-    [2, 6],
-    [3, 6],
-    [4, 6]
+    [2, 4],
+    [3, 4],
+    [4, 2],
+    [4, 3],
+    [4, 5],
+    [4, 6],
+    [5, 4],
+    [6, 4]
   ]
 }
