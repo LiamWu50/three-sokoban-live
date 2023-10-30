@@ -48,5 +48,5 @@ soundCtrlBtn?.addEventListener('click', () => {
   isSoundOn = !isSoundOn
   if (isSoundOn) audio.play()
   else audio.pause()
-  soundCtrlImg.src = isSoundOn ? '/music-note.svg' : '/music-off.svg'
+  soundCtrlImg.src = isSoundOn ? './music-note.svg' : './music-off.svg'
 })
