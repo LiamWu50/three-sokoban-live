@@ -4,6 +4,7 @@
  ## 🌍 预览
 
 [预览入口（Github）](https://liamwu50.github.io/three-sokoban-live)
+![Screenshot 2023-10-30 alle 23 54 57](https://raw.githubusercontent.com/LiamWu50/three-sokoban-live/main/public/sokoban-banner.png)
 
 ## 💡 查看示例
 
