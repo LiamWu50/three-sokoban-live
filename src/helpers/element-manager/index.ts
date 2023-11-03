@@ -70,6 +70,7 @@ export default class ElementManager {
     const entity = this.scene.children.find(
       (mesh) =>
         mesh.position.x === curPos.x &&
+        mesh.position.y === curPos.y &&
         mesh.position.z === curPos.z &&
         mesh.name !== TARGET
     ) as Mesh

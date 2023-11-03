@@ -12,8 +12,8 @@ export default class PlayerGraphic extends Graphic {
     const NODE_MATERIAL = new MeshStandardMaterial({
       color: theme.player
     })
-    const headMesh = new Mesh(NODE_GEOMETRY, NODE_MATERIAL)
-    headMesh.name = PLAYER
+    const mesh = new Mesh(NODE_GEOMETRY, NODE_MATERIAL)
+    mesh.name = PLAYER
 
     const leftEye = new Mesh(
       new SphereGeometry(0.16, 10, 10),
@@ -47,9 +47,9 @@ export default class PlayerGraphic extends Graphic {
     mouthMesh.position.z = 0.4
     mouthMesh.position.y = -0.2
 
-    headMesh.add(leftEye, rightEye, mouthMesh)
-    headMesh.lookAt(headMesh.position.clone().add(new Vector3(0, 0, 1)))
+    mesh.add(leftEye, rightEye, mouthMesh)
+    mesh.lookAt(mesh.position.clone().add(new Vector3(0, 0, 1)))
 
-    super(headMesh)
+    super(mesh)
   }
 }
